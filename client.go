@@ -1,19 +1,25 @@
 package hanabi
 
 type Client struct {
-	Bloom  string
-	Consul string
 	Config *Config
-	Rabbit string
 }
 
 func NewClient(bloom, consul string) (*Client, error) {
-	c := &Client{
+	c := &Config{
 		Bloom:  bloom,
 		Consul: consul,
 	}
 
-	return c, nil
+	err := c.load()
+	if err != nil {
+		return nil, err
+	}
+
+	x := &Client{
+		Config: c,
+	}
+
+	return x, nil
 }
 
 func (c *Client) Send(event string, data []byte) error {
