@@ -1,15 +1,15 @@
-DOCKER="shawncatz/dashotv"
+DOCKER="shawncatz/hanabi-server"
 
 run:
 	gin run
 
 deps:
-	dep ensure -update
+	go mod tidy
 	go get -u github.com/codegangsta/gin
-	go get -u github.com/pressly/sup/cmd/sup
+	#go get -u github.com/pressly/sup/cmd/sup
 
 linux:
-	GOOS=linux GOARCH=amd64 go build -o dashotv-api
+	GOOS=linux GOARCH=amd64 go build -o hanabi-server
 
 docker:
 	docker build -t $(DOCKER) .
@@ -19,6 +19,3 @@ docker-run:
 
 docker-push:
 	docker push $(DOCKER)
-
-deploy:
-	sup prod deploy
